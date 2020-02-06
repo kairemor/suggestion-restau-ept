@@ -22,6 +22,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import { sugges_url } from '../../../config';
 
 import { ValidatorForm } from 'react-material-ui-form-validator';
 
@@ -86,7 +87,7 @@ function FormSuggestion() {
   const inputLabel = React.useRef(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3500/repas')
+    axios.get(`${sugges_url}/repas`)
       .then(data => {
         console.log(data);
         setRepas(data.data);
@@ -109,7 +110,7 @@ function FormSuggestion() {
     }
 
     console.log(appreciations);
-    axios.post('http://localhost:3500/suggestion', {
+    axios.post(`${sugges_url}/suggestion`, {
       sex: state.sex,
       classroom: state.classe,
       suggestion: state.suggestion || '',

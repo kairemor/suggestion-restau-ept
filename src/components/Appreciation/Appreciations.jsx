@@ -17,6 +17,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { AppContext } from '../../App';
+import { sugges_url } from '../../../config';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -134,9 +135,9 @@ function Appreciations() {
       'Content-Type': 'application/json'
     };
     if (!search) {
-      axios.get('http://localhost:3500/suggestion?appreciationRepas=true')
+      axios.get(`${sugges_url}/suggestion?appreciationRepas=true`)
         .then(res => {
-          axios.get('http://localhost:3500/repas')
+          axios.get(`${sugges_url}/repas`)
             .then(res1 => {
               setRepas(res1.data);
               prepareData(res.data, res1.data);
@@ -146,9 +147,9 @@ function Appreciations() {
         .catch(err => console.log(err));
     } else {
       let check = JSON.stringify(search);
-      axios.get(`http://localhost:3500/suggestion?appreciationRepas=true&search=${check}`)
+      axios.get(`${sugges_url}/suggestion?appreciationRepas=true&search=${check}`)
         .then(res => {
-          axios.get('http://localhost:3500/repas')
+          axios.get(`${sugges_url}/repas`)
             .then(res1 => {
               setRepas(res1.data);
               prepareData(res.data, res1.data);

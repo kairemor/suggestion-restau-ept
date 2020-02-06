@@ -15,6 +15,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import { sugges_url } from '../../../config';
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -81,7 +83,7 @@ function Repas() {
       'Content-Type': 'application/json'
     };
 
-    axios.get('http://localhost:3500/repas')
+    axios.get(`${sugges_url}/repas`)
       .then(res1 => {
         setRepas(res1.data);
       })
@@ -113,7 +115,7 @@ function Repas() {
       'Content-Type': 'application/json'
     };
 
-    axios.put(`http://localhost:3500/repas/${selectedDay.day_number}`, newData)
+    axios.put(`${sugges_url}/repas/${selectedDay.day_number}`, newData)
       .then(res => {
         setOpenMsg(true)
         setOpen(false)

@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
+import { auth_url } from '../../../config';
 
 import * as actions from '../../store/actions/actions';
 import { AppContext } from '../../App';
@@ -22,7 +23,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Suggestion Commission Restauration
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -71,7 +72,7 @@ function SignIn({ history }) {
   const authLogin = (username, password) => {
     dispatch(actions.authStart());
     axios
-      .post(`http://localhost:4000/users/login`, {
+      .post(`${auth_url}/users/login`, {
         username, password
       })
       .then(res => {
