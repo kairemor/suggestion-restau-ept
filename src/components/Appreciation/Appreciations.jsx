@@ -17,7 +17,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { AppContext } from '../../App';
-import { sugges_url } from '../../../config';
+import { sugges_url } from '../../config';
 
 const useStyles = makeStyles(theme => ({
   root: {

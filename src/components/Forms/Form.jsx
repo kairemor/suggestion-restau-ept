@@ -22,7 +22,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import { sugges_url } from '../../../config';
+import { sugges_url } from '../../config';
 
 import { ValidatorForm } from 'react-material-ui-form-validator';
 

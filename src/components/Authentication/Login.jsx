@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-import { auth_url } from '../../../config';
+import { auth_url } from '../../config';
 
 import * as actions from '../../store/actions/actions';
 import { AppContext } from '../../App';
