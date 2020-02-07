@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+import CircularProgress from '@material-ui/core/CircularProgress';
 // import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -22,9 +22,10 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <p>
         Suggestion Commission Restauration
-      </Link>{' '}
+      </p>
+      {''}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -49,11 +50,18 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  loading: {
+    display: 'flex',
+    '& > * + *': {
+      marginLeft: theme.spacing(2),
+    },
+  },
 }));
 
 function SignIn({ history }) {
   const classes = useStyles();
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
   const { state, dispatch } = useContext(AppContext)
   // const [formErrors, setFormErrors] = useState('');
   const handleChange = (name) => event => {
@@ -71,6 +79,7 @@ function SignIn({ history }) {
 
   const authLogin = (username, password) => {
     dispatch(actions.authStart());
+    setLoading(true)
     axios
       .post(`${auth_url}/users/login`, {
         username, password
@@ -85,11 +94,13 @@ function SignIn({ history }) {
         dispatch(actions.authSuccess(user));
         // dispatch(actions.checkAuthTimeout(3600))
         history.push("/dashboard");
+        setLoading(false)
       })
       .catch(err => {
         dispatch(actions.authFail("Le nom utilisateur ou mot de passe pas valide"));
         // setFormErrors("Le nom utilisateur ou mot de passe pas valide");
         console.log(err)
+        setLoading(false)
       });
   };
 
@@ -135,9 +146,18 @@ function SignIn({ history }) {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={loading}
           >
             Sign In
           </Button>
+          {
+            loading ? (
+
+              <div classeName={classes.loading}>
+                <CircularProgress />
+              </div>
+            ) : ('')
+          }
         </form>
       </div>
       <Box mt={8}>

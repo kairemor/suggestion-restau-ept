@@ -16,7 +16,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Badge from '@material-ui/core/Badge';
-
+import { sugges_url } from '../../config';
 
 import { AppContext } from '../../App';
 
@@ -76,7 +76,7 @@ function Suggestions() {
       'Content-Type': 'application/json'
     };
     if (!search) {
-      axios.get('http://localhost:3500/suggestion?appreciationRepas=false')
+      axios.get(`${sugges_url}/suggestion?appreciationRepas=false`)
         .then(res => {
           console.log(res);
           setSuggestions(res.data);
@@ -84,7 +84,7 @@ function Suggestions() {
         .catch(err => console.log(err));
     } else {
       let check = JSON.stringify(search);
-      axios.get(`http://localhost:3500/suggestion?appreciationRepas=false&search=${check}`)
+      axios.get(`${sugges_url}/suggestion?appreciationRepas=false&search=${check}`)
         .then(res => {
           console.log(res);
           setSuggestions(res.data);
@@ -100,7 +100,7 @@ function Suggestions() {
     console.log(suggestion);
     let alreadyReaded = suggestion.readBy.split(',').find(id => id === state.id);
     if (!alreadyReaded) {
-      axios.put(`http://localhost:3500/suggestion/${suggestion._id}`, {
+      axios.put(`${sugges_url}/suggestion/${suggestion._id}`, {
         readBy: state.id
       })
         .then(suggestion => {

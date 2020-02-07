@@ -22,6 +22,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { sugges_url } from '../../config';
 
 import { ValidatorForm } from 'react-material-ui-form-validator';
@@ -64,6 +66,9 @@ function FormSuggestion() {
     sex: 'Masculin'
   });
 
+  const [loading, setLoading] = useState(false);
+  const [send, setSend] = useState(false);
+
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -100,6 +105,7 @@ function FormSuggestion() {
   const submitForm = event => {
     event.preventDefault();
     let appreciations;
+    setLoading(true)
     for (let i = 0; i <= 6; i++) {
       if (state.hasOwnProperty(`appreciation${i}repas`) || state.hasOwnProperty(`appreciation${i}diner`)) {
         appreciations === undefined ? appreciations = `${i},${state['appreciation' + i + 'repas']},${state['appreciation' + i + 'diner']}`
@@ -118,7 +124,8 @@ function FormSuggestion() {
     })
       .then(data => {
         console.log(data);
-
+        setSend(true)
+        setLoading(false)
         setOpen(true)
         setSuccessMsg("Suggestion envoye avec succes");
         setTimeout(() => {
@@ -131,7 +138,8 @@ function FormSuggestion() {
         })
       })
       .catch(err => {
-        setErrorMsg(err);
+        setErrorMsg(err.msg);
+        setLoading(false)
         setTimeout(() => {
           setErrorMsg(false)
         }, 10000)
@@ -270,9 +278,16 @@ function FormSuggestion() {
             </ExpansionPanel>
           </div>
           <Box component="span" m={1}>
-            <Button size='large' variant="contained" type="submit" color="primary">
+            <Button disabled={loading || send} size='large' variant="contained" type="submit" color="primary">
               Envoyer
             </Button>
+            {
+              loading ? (
+                <div>
+                  <CircularProgress />
+                </div>
+              ) : ('')
+            }
           </Box>
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
