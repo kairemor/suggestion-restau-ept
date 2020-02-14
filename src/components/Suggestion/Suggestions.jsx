@@ -17,6 +17,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Badge from '@material-ui/core/Badge';
 import { sugges_url } from '../../config';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 import { AppContext } from '../../App';
 
@@ -34,13 +36,18 @@ const useStyles = makeStyles(theme => ({
   search: {
     padding: 4,
     marginBottom: 10
-  }
+  },
+  center: {
+    marginLeft: "25%",
+    marginRight: "25%"
+  },
 }));
 
 function Suggestions() {
   const [suggestions, setSuggestions] = useState();
   const [search, setSearch] = useState('');
   const { state } = useContext(AppContext);
+  const [loading, setLoading] = useState(false);
   const classes = useStyles();
 
   const handleChange = name => event => {
@@ -75,10 +82,12 @@ function Suggestions() {
       Authorization: `Bearer ${state.token}`,
       'Content-Type': 'application/json'
     };
+    setLoading(true);
     if (!search) {
       axios.get(`${sugges_url}/suggestion?appreciationRepas=false`)
         .then(res => {
-          console.log(res);
+          setLoading(false);
+          // console.log(res);
           setSuggestions(res.data);
         })
         .catch(err => console.log(err));
@@ -86,7 +95,8 @@ function Suggestions() {
       let check = JSON.stringify(search);
       axios.get(`${sugges_url}/suggestion?appreciationRepas=false&search=${check}`)
         .then(res => {
-          console.log(res);
+          setLoading(false);
+          // console.log(res);
           setSuggestions(res.data);
         })
         .catch(err => console.log(err));
@@ -104,13 +114,13 @@ function Suggestions() {
         readBy: state.id
       })
         .then(suggestion => {
-          fetchSuggestions();
           console.log(suggestion);
         })
         .catch(err => console.log(err));
-    } else {
-      fetchSuggestions();
     }
+    // else {
+    //   fetchSuggestions();
+    // }
   };
 
   const printSuggestion = suggestion => {
@@ -211,18 +221,29 @@ function Suggestions() {
           </Grid>
         </Grid>
       </div>
-      <div>
-        {search.classroom ? `Les suggestions des eleves de la ${search.classroom}` : ''}
-      </div>
-      <Grid container spacing={3}>
-        {suggestions ? suggestions.map(suggestion => {
-          if (suggestion.suggestion.length) {
-            return (
-              printSuggestion(suggestion)
-            )
-          }
-        }) : ''}
-      </Grid>
+      {
+        loading ? (
+          <div className={classes.center}>
+            <CircularProgress />
+          </div>
+        ) : (
+            <div>
+              <div>
+                <h3>{search.classroom ? `Les suggestions des eleves de la ${search.classroom}` : ''}</h3>
+                <h3> Sex : {search.sex ? search.sex : ''}</h3>
+              </div>
+              <Grid container spacing={3}>
+                {suggestions ? suggestions.map(suggestion => {
+                  if (suggestion.suggestion.length) {
+                    return (
+                      printSuggestion(suggestion)
+                    )
+                  }
+                }) : ''}
+              </Grid>
+            </div>
+          )
+      }
     </div>
   );
 }
