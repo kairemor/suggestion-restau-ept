@@ -230,7 +230,7 @@ function Suggestions() {
             <div>
               <div>
                 <h3>{search.classroom ? `Les suggestions des eleves de la ${search.classroom}` : ''}</h3>
-                <h3> Sex : {search.sex ? search.sex : ''}</h3>
+                <h3>{search.sex ? `Sex : ${search.sex}` : ''}</h3>
               </div>
               <Grid container spacing={3}>
                 {suggestions ? suggestions.map(suggestion => {
